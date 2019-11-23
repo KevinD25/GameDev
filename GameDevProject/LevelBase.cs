@@ -10,10 +10,11 @@ namespace GameDevProject
 {
     class LevelBase
     {
-        public Achtergrond achtergrond;
+
         public Vector2 beginPositie = new Vector2(0, 0);
 
-        public int maxTijd = 100;
+        // collision detection variable
+        public int collisionMargin = 0;
 
         public virtual void CreateWorld()
         {
@@ -23,6 +24,26 @@ namespace GameDevProject
         public virtual void DrawWorld(SpriteBatch spritebatch)
         {
 
+        }
+
+        public virtual bool CheckCollisionTop(Hero hero)
+        {
+            return false;
+        }
+
+        public virtual bool CheckCollisionLeft(Hero hero)
+        {
+            return false;
+        }
+
+        public virtual bool CheckCollisionRight(Hero hero)
+        {
+            return false;
+        }
+
+        public virtual bool CheckCollisionBottom(Hero hero)
+        {
+            return false;
         }
     }
 }

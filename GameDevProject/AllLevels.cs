@@ -15,8 +15,6 @@ namespace GameDevProject
         private Startscherm startScherm;
         public LevelBase huidigLevel;
         private Eindscherm eindScherm;
-        public int round;
- 
 
 
         public AllLevels(ContentManager content)

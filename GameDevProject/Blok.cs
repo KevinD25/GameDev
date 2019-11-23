@@ -11,17 +11,24 @@ namespace GameDevProject
     public class Blok
     {
         public Texture2D _texture { get; set; }
-        public Vector2 Positie { get; set; }
+        public Vector2 positie { get; set; }
+
+        public Rectangle CollisionRectangle;
+        public bool collision = false;
 
         public Blok(Texture2D texture, Vector2 pos)
         {
             _texture = texture;
-            Positie = pos;
+            positie = pos;
+
+            CollisionRectangle.X = (int)positie.X;
+            CollisionRectangle.Y = (int)positie.Y;
+            CollisionRectangle = new Rectangle((int)positie.X, (int)positie.Y, texture.Width, texture.Height);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Positie, Color.AliceBlue);
+            spriteBatch.Draw(_texture, positie, Color.AliceBlue);
         }
     }
 }

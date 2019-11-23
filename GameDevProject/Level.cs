@@ -40,6 +40,7 @@ namespace GameDevProject
                         //logica voor de verschillende textures toevoegen
                         case 1:
                             blokArray[x, y] = new Blok(TijdelijkeTexture, new Vector2(y * 70, x * 70));
+                            blokArray[x, y].collision = true;
                             break;
                         default:
                             break;
@@ -62,6 +63,83 @@ namespace GameDevProject
                     }
                 }
             }
+        }
+
+        public override bool CheckCollisionTop(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    if (hero.collisionRectangleBottom.Intersects(blok.CollisionRectangle))
+                    {
+                        hit = true;
+                        collisionMargin = Convert.ToInt32(blok.positie.Y);
+                    }
+                }
+            }
+
+
+            return hit;
+        }
+
+        public override bool CheckCollisionLeft(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    if (hero.collisionRectangleLeft.Intersects(blok.CollisionRectangle))
+                    {
+                        hit = true;
+                    }
+                }
+            }
+
+
+            return hit;
+        }
+
+        public override bool CheckCollisionRight(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    if (hero.collisionRectangleRight.Intersects(blok.CollisionRectangle))
+                    {
+                        hit = true;
+                    }
+                }
+            }
+
+
+            return hit;
+        }
+
+        public override bool CheckCollisionBottom(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    if (hero.collisionRectangleTop.Intersects(blok.CollisionRectangle))
+                    {
+                        hit = true;
+                    }
+                }
+            }
+
+
+            return hit;
         }
     }
 }

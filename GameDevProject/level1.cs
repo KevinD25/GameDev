@@ -11,16 +11,18 @@ namespace GameDevProject
 {
     class Level1 : Level 
     {
+        
 
         public Level1(ContentManager content) : base (content)
         {
+            beginPositie = new Vector2(10, 220);
             tileArray = new Byte[,]
         {
-            {1,0,0,0,0,1 },
-            {1,0,0,0,0,1 },
-            {1,0,0,0,0,1 },
-            {1,0,0,0,0,1 },
-            {1,1,1,1,1,1 },
+            {0,0,0,0,0,0,0,0,0,0,0 },
+            {0,0,0,0,0,0,0,0,0,0,0 },
+            {0,0,0,0,0,0,0,0,0,0,0 },
+            {0,0,0,0,0,1,0,0,0,0,0 },
+            {1,1,1,1,1,1,1,1,1,1,1 },
         };
         }
     

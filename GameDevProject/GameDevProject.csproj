@@ -46,9 +46,12 @@
     <Compile Include="Bediening.cs" />
     <Compile Include="Blok.cs" />
     <Compile Include="Camera2d.cs" />
+    <Compile Include="Collider.cs" />
+    <Compile Include="Delay.cs" />
     <Compile Include="Eindscherm.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Hero.cs" />
+    <Compile Include="ICollide.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Level1.cs" />
     <Compile Include="LevelBase.cs" />
