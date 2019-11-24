@@ -19,13 +19,16 @@ namespace GameDevProject
         // array maken van blokken
         public Blok[,] blokArray;
 
+        //collider aanmaken
+        Collider collider;
+
         // level initialiseren
         public Level(ContentManager content)
 
         {
             // textures die voor alle levels hetzelfde zijn inladen
             TijdelijkeTexture = content.Load<Texture2D>("tijdelijk/Tile2");
-        
+            collider = new Collider();
         }
 
         public override void CreateWorld()
@@ -39,7 +42,7 @@ namespace GameDevProject
                     {
                         //logica voor de verschillende textures toevoegen
                         case 1:
-                            blokArray[x, y] = new Blok(TijdelijkeTexture, new Vector2(y * 70, x * 70));
+                            blokArray[x, y] = new Blok(TijdelijkeTexture, new Vector2(y*70, x*70));
                             blokArray[x, y].collision = true;
                             break;
                         default:
@@ -58,13 +61,13 @@ namespace GameDevProject
                 for (int y = 0; y < tileArray.GetLength(1); y++)
                 {
                     if (blokArray[x, y] != null)
-                    {
-                        blokArray[x, y].Draw(spritebatch);
+                    {     
+                        blokArray[x, y].Draw(spritebatch);                     
                     }
                 }
             }
         }
-
+        
         public override bool CheckCollisionTop(Hero hero)
         {
             bool hit = false;
@@ -141,5 +144,92 @@ namespace GameDevProject
 
             return hit;
         }
+        /*
+        public override bool CheckCollisionTop(Hero hero)
+        {
+            bool hit = false;
+
+            foreach(Blok blok in blokArray)
+            {
+                if(blok is Blok && blok.collision)
+                {
+                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setTarget(blok.CollisionRectangle);
+                    if (collider.IsTouchingTop()){
+                        hit = true;
+                        collisionMargin = Convert.ToInt32(blok.positie.Y);
+                        Console.WriteLine("TOUCHING TOP");
+                    }
+                }
+            }
+            return hit;
+        }
+
+        public override bool CheckCollisionLeft(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setTarget(blok.CollisionRectangle);
+                    if (collider.IsTouchingLeft())
+                    {
+                        hit = true;
+                        Console.WriteLine("TOUCHING LEFT");
+                    }
+                }
+            }
+
+
+            return hit;
+        }
+
+        public override bool CheckCollisionRight(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setTarget(blok.CollisionRectangle);
+                    if (collider.IsTouchingRight())
+                    {
+                        hit = true;
+                        Console.WriteLine("TOUCHING RIGHT");
+                    }
+                }
+            }
+
+
+            return hit;
+        }
+
+        public override bool CheckCollisionBottom(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.collision)
+                {
+                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setTarget(blok.CollisionRectangle);
+                    if (collider.IsTouchingBottom())
+                    {
+                        hit = true;
+                       Console.WriteLine("TOUCHING BOTTOM");
+                    }
+                }
+            }
+
+
+            return hit;
+        }
+        */
     }
 }

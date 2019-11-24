@@ -51,7 +51,6 @@
     <Compile Include="Eindscherm.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Hero.cs" />
-    <Compile Include="ICollide.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Level1.cs" />
     <Compile Include="LevelBase.cs" />
