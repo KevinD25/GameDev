@@ -11,7 +11,10 @@ namespace GameDevProject
     class LevelBase
     {
 
-        public Vector2 beginPositie = new Vector2(0, 0);
+        public Vector2 beginPositieHero = new Vector2(0, 0);
+        public List<Vector2> beginPositieAnts = new List<Vector2>();
+        public Hero Hero { get; set; }
+        public Enemy Enemy { get; set; }
 
         // collision detection variable
         public int collisionMargin = 0;
@@ -26,22 +29,39 @@ namespace GameDevProject
 
         }
 
-        public virtual bool CheckCollisionTop(Hero hero)
+        public virtual bool CheckCollisionTop(Sprite sprite)
         {
             return false;
         }
 
-        public virtual bool CheckCollisionLeft(Hero hero)
+        public virtual bool CheckCollisionLeft(Sprite sprite)
         {
             return false;
         }
 
-        public virtual bool CheckCollisionRight(Hero hero)
+        public virtual bool CheckCollisionRight(Sprite sprite)
         {
             return false;
         }
 
-        public virtual bool CheckCollisionBottom(Hero hero)
+        public virtual bool CheckCollisionBottom(Sprite sprite)
+        {
+            return false;
+        }
+
+        public virtual bool CheckCollisionTopSprites(Sprite player, List<Sprite> target)
+        {
+            return false;
+        }
+        public virtual bool CheckCollisionLeftSprites(Sprite player, List<Sprite> target)
+        {
+            return false;
+        }
+        public virtual bool CheckCollisionRightSprites(Sprite player, List<Sprite> target)
+        {
+            return false;
+        }
+        public virtual bool CheckCollisionBottomSprites(Sprite player, List<Sprite> target)
         {
             return false;
         }

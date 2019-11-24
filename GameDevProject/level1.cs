@@ -15,7 +15,10 @@ namespace GameDevProject
 
         public Level1(ContentManager content) : base(content)
         {
-            beginPositie = new Vector2(110, 220);
+            beginPositieHero = new Vector2(110, 220);
+            beginPositieAnts.Add(new Vector2(530, 232));
+            beginPositieAnts.Add(new Vector2(310, 232));
+
             tileArray = new Byte[,]
         {
             {0,0,0,0,0,0,0,0,0,0,0 },

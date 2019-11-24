@@ -24,12 +24,13 @@ namespace GameDevProject
 
         // level initialiseren
         public Level(ContentManager content)
-
         {
             // textures die voor alle levels hetzelfde zijn inladen
             TijdelijkeTexture = content.Load<Texture2D>("tijdelijk/Tile2");
             collider = new Collider();
         }
+
+
 
         public override void CreateWorld()
         {
@@ -47,9 +48,7 @@ namespace GameDevProject
                             break;
                         default:
                             break;
-
                     }
-
                 }
             }
         }
@@ -68,7 +67,7 @@ namespace GameDevProject
             }
         }
         
-        public override bool CheckCollisionTop(Hero hero)
+        public override bool CheckCollisionTop(Sprite sprite)
         {
             bool hit = false;
 
@@ -76,19 +75,17 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    if (hero.collisionRectangleBottom.Intersects(blok.CollisionRectangle))
+                    if (sprite.collisionRectangleBottom.Intersects(blok.CollisionRectangle))
                     {
                         hit = true;
                         collisionMargin = Convert.ToInt32(blok.positie.Y);
                     }
                 }
             }
-
-
             return hit;
         }
 
-        public override bool CheckCollisionLeft(Hero hero)
+        public override bool CheckCollisionLeft(Sprite sprite)
         {
             bool hit = false;
 
@@ -96,18 +93,16 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    if (hero.collisionRectangleLeft.Intersects(blok.CollisionRectangle))
+                    if (sprite.collisionRectangleLeft.Intersects(blok.CollisionRectangle))
                     {
                         hit = true;
                     }
                 }
             }
-
-
             return hit;
         }
 
-        public override bool CheckCollisionRight(Hero hero)
+        public override bool CheckCollisionRight(Sprite sprite)
         {
             bool hit = false;
 
@@ -115,18 +110,16 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    if (hero.collisionRectangleRight.Intersects(blok.CollisionRectangle))
+                    if (sprite.collisionRectangleRight.Intersects(blok.CollisionRectangle))
                     {
                         hit = true;
                     }
                 }
             }
-
-
             return hit;
         }
 
-        public override bool CheckCollisionBottom(Hero hero)
+        public override bool CheckCollisionBottom(Sprite sprite)
         {
             bool hit = false;
 
@@ -134,38 +127,121 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    if (hero.collisionRectangleTop.Intersects(blok.CollisionRectangle))
+                    if (sprite.collisionRectangleTop.Intersects(blok.CollisionRectangle))
                     {
                         hit = true;
                     }
                 }
             }
+            return hit;
+        }
 
+        public override bool CheckCollisionTopSprites(Sprite player, List<Sprite> target)
+        {
+            bool hit = false;
 
+            //collider.setPlayer(player.collisionRectangle);
+
+            foreach (Sprite enemy in target)
+            {
+                if (player.collisionRectangleBottom.Intersects(enemy.collisionRectangle))
+                {
+                    hit = true;
+                    collisionMargin = 2;
+                    Console.WriteLine("Hit sprite Top");
+                }
+                /*
+                collider.setTarget(enemy.collisionRectangle);
+                if (collider.IsTouchingTop())
+                {
+                    hit = true;
+                    collisionMargin = 2;
+                }*/
+
+            }
+            return hit;
+
+        }
+
+        public override bool CheckCollisionLeftSprites(Sprite player, List<Sprite> target)
+        {
+            bool hit = false;
+
+            //collider.setPlayer(player.collisionRectangle);
+            foreach (Sprite enemy in target)
+            {
+
+                if (player.collisionRectangleLeft.Intersects(enemy.collisionRectangle))
+                {
+                    hit = true;
+                    Console.WriteLine("Hit sprite left");
+                }
+                /*
+                collider.setTarget(enemy.collisionRectangle);
+                if (collider.IsTouchingLeft())
+                {
+                    hit = true;
+                    collisionMargin = 2;
+
+                }*/
+
+            }
+            return hit;
+        }
+
+        public override bool CheckCollisionRightSprites(Sprite player, List<Sprite> target)
+        {
+            bool hit = false;
+
+            //collider.setPlayer(player.collisionRectangle);
+            foreach (Sprite enemy in target)
+            {
+                if (player.collisionRectangleRight.Intersects(enemy.collisionRectangle))
+                {
+                    hit = true;
+                    Console.WriteLine("Hit sprite right");
+                }
+
+/*
+                collider.setTarget(enemy.collisionRectangle);
+                if (collider.IsTouchingRight())
+                {
+                    hit = true;
+                    collisionMargin = 2;
+
+                }*/
+
+            }
+            return hit;
+        }
+
+        public override bool CheckCollisionBottomSprites(Sprite player, List<Sprite> target)
+        {
+            bool hit = false;
+
+            //collider.setPlayer(player.collisionRectangle);
+            foreach (Sprite enemy in target)
+            {
+
+                if (player.collisionRectangleTop.Intersects(enemy.collisionRectangle))
+                {
+                    hit = true;
+                    Console.WriteLine("Hit sprite Bottom");
+                }
+                /*
+                collider.setTarget(enemy.collisionRectangle);
+                if (collider.IsTouchingBottom())
+                {
+                    hit = true;
+                    collisionMargin = 2;
+
+                }*/
+
+            }
             return hit;
         }
         /*
-        public override bool CheckCollisionTop(Hero hero)
-        {
-            bool hit = false;
-
-            foreach(Blok blok in blokArray)
-            {
-                if(blok is Blok && blok.collision)
-                {
-                    collider.setPlayer(hero.CollisionRectangle);
-                    collider.setTarget(blok.CollisionRectangle);
-                    if (collider.IsTouchingTop()){
-                        hit = true;
-                        collisionMargin = Convert.ToInt32(blok.positie.Y);
-                        Console.WriteLine("TOUCHING TOP");
-                    }
-                }
-            }
-            return hit;
-        }
-
-        public override bool CheckCollisionLeft(Hero hero)
+        public override bool CheckCollisionLeft(Sprite sprite)
         {
             bool hit = false;
 
@@ -173,7 +249,7 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setPlayer(sprite.collisionRectangleLeft);
                     collider.setTarget(blok.CollisionRectangle);
                     if (collider.IsTouchingLeft())
                     {
@@ -187,7 +263,7 @@ namespace GameDevProject
             return hit;
         }
 
-        public override bool CheckCollisionRight(Hero hero)
+        public override bool CheckCollisionRight(Sprite sprite)
         {
             bool hit = false;
 
@@ -195,7 +271,7 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setPlayer(sprite.collisionRectangleRight);
                     collider.setTarget(blok.CollisionRectangle);
                     if (collider.IsTouchingRight())
                     {
@@ -209,7 +285,7 @@ namespace GameDevProject
             return hit;
         }
 
-        public override bool CheckCollisionBottom(Hero hero)
+        public override bool CheckCollisionBottom(Sprite sprite)
         {
             bool hit = false;
 
@@ -217,7 +293,7 @@ namespace GameDevProject
             {
                 if (blok is Blok && blok.collision)
                 {
-                    collider.setPlayer(hero.CollisionRectangle);
+                    collider.setPlayer(sprite.collisionRectangleTop);
                     collider.setTarget(blok.CollisionRectangle);
                     if (collider.IsTouchingBottom())
                     {

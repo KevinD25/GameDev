@@ -14,6 +14,7 @@ namespace GameDevProject
         SpriteBatch spriteBatch;
         Camera2d camera;
         Hero hero;
+        Enemy enemy;
 
         //variabele voor levels aan te maken
         AllLevels levels;
@@ -71,6 +72,11 @@ namespace GameDevProject
                 hero = new Hero(Content, levels.huidigLevel);
 
                 hero._bediening = new BedieningPijltjes();
+
+                enemy = new Enemy(Content, levels.huidigLevel);
+                enemy.createEnemies(Content);
+                levels.huidigLevel.Hero = hero;
+                levels.huidigLevel.Enemy = enemy;
             }
 
             levels.CreateWorld();
@@ -102,6 +108,7 @@ namespace GameDevProject
             if (levels.huidigLevel is Level)
             {
                 hero.Update(elapsedTime, gameTime);
+                enemy.Update(elapsedTime, gameTime);
             }
 
             base.Update(gameTime);
@@ -123,6 +130,9 @@ namespace GameDevProject
                 levels.DrawWorld(spriteBatch);
                 //hero tekenen
                 hero.Draw(spriteBatch);
+
+                //enemy tekenen
+                enemy.Draw(spriteBatch);
 
                 spriteBatch.End();
             }

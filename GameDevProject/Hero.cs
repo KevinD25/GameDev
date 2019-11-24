@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace GameDevProject
 {
-    class Hero
+    class Hero : Sprite
     {
 
         static Texture2D[] heroIdleRight = new Texture2D[8];
@@ -18,15 +19,16 @@ namespace GameDevProject
         static Texture2D[] heroJumpLeft = new Texture2D[4];
         static Texture2D[] heroCrouchLeft = new Texture2D[2];
 
-        private Rectangle collisionRectangle;
+        /*public Rectangle collisionRectangle;
         public Rectangle collisionRectangleBottom;
         public Rectangle collisionRectangleTop;
         public Rectangle collisionRectangleLeft;
-        public Rectangle collisionRectangleRight;
+        public Rectangle collisionRectangleRight;*/
 
         Collider collider;
 
-        private Boolean right = true;
+        private bool right = true;
+        private bool moving = false;
         private int idling = 0;
         private int walking = 0;
         private int jumping = 0;
@@ -36,12 +38,19 @@ namespace GameDevProject
         private LevelBase _level;
         private Delay delay;
 
+        public Enemy enemy;
+
         public bool bovenCollision = false;
 
         public bool collisionTop = false;
         public bool collisionRight = false;
         public bool collisionLeft = false;
         public bool collisionBottom = false;
+
+        public bool collisionSpriteTop = false;
+        public bool collisionSpriteRight = false;
+        public bool collisionSpriteLeft = false;
+        public bool collisionSpriteBottom = false;
 
         public Bediening _bediening { get; set; }
 
@@ -58,21 +67,21 @@ namespace GameDevProject
             delay = new Delay(0.15f);
 
             // hero positie geven op veld
-            positie = level.beginPositie;
+            positie = level.beginPositieHero;
 
             //collision detection vierkant aanmaken
             collisionRectangle = new Rectangle((int)positie.X + 22, (int)positie.Y + 23, 30, 25);
-            collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y, 30, 23);
+            collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y, 30, 10);
             collisionRectangleBottom = new Rectangle((int)positie.X + 22, (int)positie.Y + 48, 30, 10);
-            collisionRectangleLeft = new Rectangle((int)positie.X + 38, (int)positie.Y + 23, 22, 25);
-            collisionRectangleRight = new Rectangle((int)positie.X + 22, (int)positie.Y + 23, 38, 25);
+            collisionRectangleLeft = new Rectangle((int)positie.X + 38, (int)positie.Y + 23, 10, 25);
+            collisionRectangleRight = new Rectangle((int)positie.X + 22, (int)positie.Y + 23, 10, 25);
 
             hasJumped = true;
         }
 
         public Rectangle CollisionRectangle { get => collisionRectangle; set => collisionRectangle = value; }
 
-        private static void LoadTextures(ContentManager cnt)
+        public override void LoadTextures(ContentManager cnt)
         {
             #region Right
             for (int i = 0; i < 8; i++)
@@ -123,7 +132,7 @@ namespace GameDevProject
             #endregion
         }
 
-        public void Update(float elapsedTime, GameTime gameTime)
+        public override void Update(float elapsedTime, GameTime gameTime)
         {
 
             _bediening.Update();
@@ -134,13 +143,57 @@ namespace GameDevProject
             collisionRight = _level.CheckCollisionRight(this);
             collisionBottom = _level.CheckCollisionBottom(this);
 
+
+            //Logica om na te kijken of player geraakt wordt door enemy
+            //controleren of sprite geraakt wordt door player
+            List<Sprite> sprites = new List<Sprite>();
+            sprites.Add(_level.Enemy);
+            collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
+            collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, sprites);
+            collisionSpriteRight = _level.CheckCollisionRightSprites(this, sprites);
+            collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, sprites);
+
             positie += velocity;
 
             //TODO Collision logic in if statements
 
+            if (hasJumped || !collisionTop)
+            {
+                float i = 1;
+                velocity.Y += 0.50f * i;
+                onBlock = false;
+                delay.setDelay(0.1f);
+                if (delay.timerDone(gameTime))
+                {
+                    if (jumping < 3)
+                    {
+                        jumping++;
+                    }
+                    else
+                    {
+                        jumping = 0;
+                    }
+                }
+                if (moving)
+                {
+                    if (right)
+                    {
+                        positie.X += 2;
+                    }
+                    else
+                    {
+                        positie.X += -2;
+                    }
+                }
+
+            }
+
             if (_bediening.right && !collisionLeft)
             {
-                delay.setDelay(0.07f); //Running speed
+                moving = true;
+                right = true;
+                if (!hasJumped) delay.setDelay(0.07f);
+                //Running speed
                 if (delay.timerDone(gameTime))
                 {
                     positie.X += 6; //Running distance per tick
@@ -156,7 +209,9 @@ namespace GameDevProject
             } //right
             else if (_bediening.left && !collisionRight)
             {
-                delay.setDelay(0.07f);
+                moving = true;
+                right = false;
+                if (!hasJumped) delay.setDelay(0.07f);
                 if (delay.timerDone(gameTime))
                 {
                     positie.X += -6;
@@ -172,6 +227,7 @@ namespace GameDevProject
             } //left
             else if (_bediening.down && !collisionTop)
             {
+                moving = false;
                 delay.setDelay(0.15f);
                 if (delay.timerDone(gameTime))
                 {
@@ -188,6 +244,7 @@ namespace GameDevProject
             } //crouch
             else
             {
+                moving = false;
                 delay.setDelay(0.15f);
                 if (delay.timerDone(gameTime))
                 {
@@ -209,7 +266,7 @@ namespace GameDevProject
                 velocity.Y = -8f; //Drop speed
                 hasJumped = true;
                 collisionTop = false;
-                
+
                 /*if (delay.timerDone(gameTime))
                 {*/
                 /*
@@ -224,35 +281,11 @@ namespace GameDevProject
                 //}
             }
 
-            if (hasJumped)
-            {
-
-            }
-            if (hasJumped || !collisionTop)
-            {
-                //Velocity na jump  BUG; Valt door grond
-
-                float i = 1;
-                velocity.Y += 0.50f * i;
-                onBlock = false;
-                delay.setDelay(0.1f);
-                if (delay.timerDone(gameTime))
-                {
-                    if (jumping < 3)
-                    {
-                        jumping++;
-                    }
-                    else
-                    {
-                        jumping = 0;
-                    }
-                }         
-            }         
             if (collisionTop)
             {
                 velocity.Y = 0;
                 positie.Y = _level.collisionMargin - collisionRectangle.Height - 23f;
-                Console.WriteLine(positie.Y + " " + positie.X);
+                //Console.WriteLine(positie.Y + " " + positie.X);
                 hasJumped = false;
                 onBlock = true;
                 bovenCollision = false;
@@ -266,7 +299,12 @@ namespace GameDevProject
             }
 
 
-            collisionRectangle.X = (int)positie.X + 22 ;
+            //controleren op botsingen met sprites
+
+            //if()
+
+
+            collisionRectangle.X = (int)positie.X + 22;
             collisionRectangle.Y = (int)positie.Y;
 
             collisionRectangleTop.X = (int)positie.X + 22;
@@ -278,28 +316,16 @@ namespace GameDevProject
             collisionRectangleLeft.X = (int)positie.X + 47;
             collisionRectangleLeft.Y = (int)positie.Y;
 
-            collisionRectangleRight.X = (int)positie.X + 22 ;
+            collisionRectangleRight.X = (int)positie.X + 22;
             collisionRectangleRight.Y = (int)positie.Y;
         }
 
 
 
 
-        public void Draw(SpriteBatch spritebatch)
+        public override void Draw(SpriteBatch spritebatch)
         {
-            if (_bediening.left)
-            {
-                //logic for left run
-                spritebatch.Draw(heroWalkLeft[walking], positie, Color.AliceBlue);
-                right = false;
-            }
-            else if (_bediening.right)
-            {
-                //logic for right run  
-                spritebatch.Draw(heroWalkRight[walking], positie, Color.AliceBlue);
-                right = true;
-            }
-            else if (_bediening.up)
+            if (_bediening.up || hasJumped)
             {
                 //logic for left and right jump
                 if (right)
@@ -311,6 +337,19 @@ namespace GameDevProject
                     spritebatch.Draw(heroJumpLeft[jumping], positie, Color.AliceBlue);
                 }
             }
+            else if (_bediening.right && !hasJumped)
+            {
+                //logic for left run
+                spritebatch.Draw(heroWalkRight[walking], positie, Color.AliceBlue);
+                right = true;
+            }
+            else if (_bediening.left && !hasJumped)
+            {
+                //logic for right run  
+                spritebatch.Draw(heroWalkLeft[walking], positie, Color.AliceBlue);
+                right = false;
+            }
+
             else if (_bediening.down)
             {
                 //logic for left and right crouch
