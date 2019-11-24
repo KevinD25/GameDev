@@ -38,10 +38,9 @@ namespace GameDevProject
 
         protected Texture2D[] enemyDying = new Texture2D[4];
 
-        public List<Ant> ants = new List<Ant>();
+        public List<Sprite> ants = new List<Sprite>();
 
-
-        public Enemy(ContentManager cnt, LevelBase level)
+        public Enemy(ContentManager cnt, LevelBase level) : base()
         {
             _level = level;
             delay = new Delay(0.15f);
@@ -91,7 +90,7 @@ namespace GameDevProject
             startPositie = beginPositie;
             //collision detection vierkant aanmaken
             collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y + 23, 37, 31);
-            collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y, 37, 5);
+            collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y - 5, 37, 5);
             collisionRectangleBottom = new Rectangle((int)positie.X, (int)positie.Y + 48, 37, 5);
             collisionRectangleLeft = new Rectangle((int)positie.X + 37, (int)positie.Y + 31, 5, 31);
             collisionRectangleRight = new Rectangle((int)positie.X, (int)positie.Y + 31, 5, 31);
@@ -114,7 +113,7 @@ namespace GameDevProject
             }
             for(int i = 0; i < 4; i++)
             {
-                enemyDying[i] = cnt.Load<Texture2D>("enemyDeath/enemy-death-" + (i + 1));
+                enemyDying[i] = cnt.Load<Texture2D>("enemydeath/enemy-death-" + (i + 1));
             }
         
         }
@@ -129,11 +128,16 @@ namespace GameDevProject
 
             //controleren of sprite geraakt wordt door player
             List<Sprite> sprites = new List<Sprite>();
-            sprites.Add(_level.Hero);
-            collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
+            sprites.Add(_level.Hero);           
             collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, sprites);
             collisionSpriteRight = _level.CheckCollisionRightSprites(this, sprites);
             collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, sprites);
+            if(!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteBottom)
+            {
+                collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
+            }
+
+            
 
             positie += velocity;
 
@@ -175,18 +179,16 @@ namespace GameDevProject
                         }
                     }
                 }
-
-                if (!alive)
+                if (collisionSpriteTop)
                 {
-                    delay.setDelay(0.07f);
-                    if (delay.timerDone(gameTime))
+                    alive = false;
+                    delay.setDelay(0.1f);
+                    if(dying < 4)
                     {
-                        if(dying < 4)
-                        {
-                            dying++;
-                        }                        
+                        dying++;
                     }
                 }
+                
 
                 if (collisionTop)
                 {
@@ -199,19 +201,15 @@ namespace GameDevProject
                     float i = 1;
                     velocity.Y += 0.50f * i; ;
                 }
-
-
-                if (collisionSpriteTop)
-                {
-                    alive = false;
-                }
             }
+
+   
 
             collisionRectangle.X = (int)positie.X;
             collisionRectangle.Y = (int)positie.Y;
 
             collisionRectangleTop.X = (int)positie.X;
-            collisionRectangleTop.Y = (int)positie.Y;
+            collisionRectangleTop.Y = (int)positie.Y - 5;
 
             collisionRectangleBottom.X = (int)positie.X;
             collisionRectangleBottom.Y = (int)positie.Y + 31;

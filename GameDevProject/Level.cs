@@ -144,7 +144,7 @@ namespace GameDevProject
 
             foreach (Sprite enemy in target)
             {
-                if (player.collisionRectangleBottom.Intersects(enemy.collisionRectangle))
+                if (player.collisionRectangleTop.Intersects(enemy.collisionRectangle))
                 {
                     hit = true;
                     collisionMargin = 2;
@@ -223,7 +223,7 @@ namespace GameDevProject
             foreach (Sprite enemy in target)
             {
 
-                if (player.collisionRectangleTop.Intersects(enemy.collisionRectangle))
+                if (player.collisionRectangleBottom.Intersects(enemy.collisionRectangle))
                 {
                     hit = true;
                     Console.WriteLine("Hit sprite Bottom");

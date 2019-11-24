@@ -34,11 +34,15 @@ namespace GameDevProject
         private int jumping = 0;
         private int crouching = 0;
         private int hurt = 0;
+        private int currentSeconds;
+        private int hurtAmount = 0;
 
         private LevelBase _level;
         private Delay delay;
 
         public Enemy enemy;
+
+        protected bool spriteHit = false;
 
         public bool bovenCollision = false;
 
@@ -146,16 +150,37 @@ namespace GameDevProject
 
             //Logica om na te kijken of player geraakt wordt door enemy
             //controleren of sprite geraakt wordt door player
-            List<Sprite> sprites = new List<Sprite>();
-            sprites.Add(_level.Enemy);
-            collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
-            collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, sprites);
-            collisionSpriteRight = _level.CheckCollisionRightSprites(this, sprites);
-            collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, sprites);
+            collisionSpriteTop = _level.CheckCollisionTopSprites(this, _level.Enemy.ants);
+            collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, _level.Enemy.ants);
+            collisionSpriteRight = _level.CheckCollisionRightSprites(this, _level.Enemy.ants);
+
+            if (!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteTop)
+            {
+                collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, _level.Enemy.ants);
+            }
+
 
             positie += velocity;
 
+
             //TODO Collision logic in if statements
+
+            if (collisionSpriteTop || collisionSpriteLeft || collisionSpriteRight)
+            {
+                spriteHit = true;
+                hurtAmount++;
+                Console.WriteLine(spriteHit);
+            }
+            else //TODO HURT LOGIC
+            {
+                currentSeconds = gameTime.ElapsedGameTime.Seconds;
+                if(gameTime.ElapsedGameTime.Seconds - currentSeconds == 3)
+                {
+                    spriteHit = false;
+                    Console.WriteLine(spriteHit);
+                }
+            }
+
 
             if (hasJumped || !collisionTop)
             {
