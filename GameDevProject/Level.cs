@@ -148,7 +148,7 @@ namespace GameDevProject
                 {
                     hit = true;
                     collisionMargin = 2;
-                    Console.WriteLine("Hit sprite Top");
+                    //Console.WriteLine("Hit sprite Top");
                 }
                 /*
                 collider.setTarget(enemy.collisionRectangle);
@@ -174,7 +174,7 @@ namespace GameDevProject
                 if (player.collisionRectangleLeft.Intersects(enemy.collisionRectangle))
                 {
                     hit = true;
-                    Console.WriteLine("Hit sprite left");
+                    //Console.WriteLine("Hit sprite left");
                 }
                 /*
                 collider.setTarget(enemy.collisionRectangle);
@@ -199,7 +199,7 @@ namespace GameDevProject
                 if (player.collisionRectangleRight.Intersects(enemy.collisionRectangle))
                 {
                     hit = true;
-                    Console.WriteLine("Hit sprite right");
+                    //Console.WriteLine("Hit sprite right");
                 }
 
 /*
@@ -226,7 +226,7 @@ namespace GameDevProject
                 if (player.collisionRectangleBottom.Intersects(enemy.collisionRectangle))
                 {
                     hit = true;
-                    Console.WriteLine("Hit sprite Bottom");
+                    //Console.WriteLine("Hit sprite Bottom");
                 }
                 /*
                 collider.setTarget(enemy.collisionRectangle);

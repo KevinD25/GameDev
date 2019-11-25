@@ -21,6 +21,8 @@ namespace GameDevProject
             beginPositieAnts.Add(new Vector2(530, 232));
             beginPositieAnts.Add(new Vector2(310, 232));
 
+
+
             //Set acorns positie - set aantal acorns
             beginPositieAcorns.Add(new Vector2(200, 230));
             beginPositieAcorns.Add(new Vector2(200, 160));

@@ -108,7 +108,7 @@ namespace GameDevProject
             positie = beginPositie;
             startPositie = beginPositie;
         
-            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y, 4, 4);
+            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y, 16, 14);
             collisionRectangleTop = collisionRectangle;
             collisionRectangleBottom = collisionRectangle;
             collisionRectangleLeft = collisionRectangle;
@@ -133,7 +133,7 @@ namespace GameDevProject
             if (CheckCollisions())
             {
                 collected = true;
-                Console.WriteLine("COLLECTED");
+                //Console.WriteLine("COLLECTED");
             }
 
             if (!collected)
@@ -287,7 +287,7 @@ namespace GameDevProject
                 if (collisionTop)
                 {
                     positie.Y = _level.collisionMargin - collisionRectangle.Height - 1;
-                    Console.WriteLine(positie.Y + " " + positie.X);
+                    //Console.WriteLine(positie.Y + " " + positie.X);
                     bovenCollision = false;
                 }
                 if (!collisionTop)
