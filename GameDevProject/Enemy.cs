@@ -39,6 +39,7 @@ namespace GameDevProject
         protected Texture2D[] enemyDying = new Texture2D[4];
 
         public List<Sprite> ants = new List<Sprite>();
+        public List<Sprite> acorns = new List<Sprite>();
 
         public Enemy(ContentManager cnt, LevelBase level) : base()
         {
@@ -49,6 +50,22 @@ namespace GameDevProject
 
         public void createEnemies(ContentManager cnt)
         {
+            CreateAnts(cnt);
+            CreateAcorns(cnt);
+        }
+
+        private void CreateAcorns(ContentManager cnt)
+        {
+            acorns.Clear();
+            foreach (Vector2 position in _level.beginPositieAcorns)
+            {
+                Acorn acorn = new Acorn(cnt, _level, position);
+                acorns.Add(acorn);
+            }
+        }
+
+        private void CreateAnts(ContentManager cnt)
+        {
             ants.Clear();
             foreach (Vector2 position in _level.beginPositieAnts)
             {
@@ -56,21 +73,118 @@ namespace GameDevProject
                 ants.Add(ant);
             }
         }
+
         public override void Update(float elapsedTime, GameTime gameTime)
         {
             foreach (Ant ant in ants)
             {
                 ant.UpdateAnt(elapsedTime, gameTime);
             }
+            foreach (Acorn acorn in acorns) {
+                acorn.UpdateAcorn(elapsedTime, gameTime);
+            }
         }
         public override void Draw(SpriteBatch spriteBatch)
-        {
+        {         
             foreach (Ant ant in ants)
             {
                 ant.DrawAnt(spriteBatch);
             }
+            foreach(Acorn acorn in acorns)
+            {
+                acorn.DrawAcorn(spriteBatch);
+            }
         }
     }
+
+    class Acorn : Enemy
+    {
+        static Texture2D[] acorn = new Texture2D[3];
+        private bool collected = false;
+        private int collectable = 0;
+
+        public Acorn(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
+        {
+            positie = beginPositie;
+            startPositie = beginPositie;
+        
+            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y, 4, 4);
+            collisionRectangleTop = collisionRectangle;
+            collisionRectangleBottom = collisionRectangle;
+            collisionRectangleLeft = collisionRectangle;
+            collisionRectangleRight = collisionRectangle;
+
+
+            LoadTextures(cnt);
+        }
+
+        public Rectangle CollisionRectangle { get => collisionRectangle; set => collisionRectangle = value; }
+
+        public override void LoadTextures(ContentManager cnt)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                acorn[i] = cnt.Load<Texture2D>("acorn/acorn-" + (i + 1));
+            }
+        }
+
+        public void UpdateAcorn(float elapsedTime, GameTime gameTime)
+        {
+            if (CheckCollisions())
+            {
+                collected = true;
+                Console.WriteLine("COLLECTED");
+            }
+
+            if (!collected)
+            {
+                delay.setDelay(0.2f);
+                if (delay.timerDone(gameTime))
+                {
+                    if (collectable < 2)
+                    {
+                        collectable++;
+                    }
+                    else
+                    {
+                        collectable = 0;
+                    }
+                }
+            }
+
+            UpdateCollisionRectangle();
+        }
+
+        public void DrawAcorn(SpriteBatch spriteBatch)
+        {
+            if (!collected)
+            {
+                spriteBatch.Draw(acorn[collectable], positie, Color.AliceBlue);
+            }
+        }
+
+        private bool CheckCollisions()
+        {
+
+            //controleren of sprite geraakt wordt door player
+            List<Sprite> sprites = new List<Sprite>();
+            sprites.Add(_level.Hero);
+            collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, sprites);
+            collisionSpriteRight = _level.CheckCollisionRightSprites(this, sprites);
+            collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
+            collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, sprites);
+            // CHECKING COLLISION
+            return collisionSpriteLeft || collisionSpriteRight || collisionSpriteTop || collisionSpriteBottom;
+        }
+
+        private void UpdateCollisionRectangle()
+        {
+            collisionRectangle.X = (int)positie.X;
+            collisionRectangle.Y = (int)positie.Y;
+        }
+    }
+
+
 
     class Ant : Enemy
     {
@@ -80,9 +194,6 @@ namespace GameDevProject
         private int walking = 0;
         private bool right = true;
         private int dying = 0;
-
-
-
 
         public Ant(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
         {
@@ -111,33 +222,16 @@ namespace GameDevProject
             {
                 antLeft[i] = cnt.Load<Texture2D>("ant/left/ant-" + (i + 1));
             }
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 enemyDying[i] = cnt.Load<Texture2D>("enemydeath/enemy-death-" + (i + 1));
             }
-        
+
         }
 
         public void UpdateAnt(float elapsedTime, GameTime gameTime)
         {
-            //controleren op collissions
-            collisionTop = _level.CheckCollisionTop(this);
-            collisionLeft = _level.CheckCollisionLeft(this);
-            collisionRight = _level.CheckCollisionRight(this);
-            collisionBottom = _level.CheckCollisionBottom(this);
-
-            //controleren of sprite geraakt wordt door player
-            List<Sprite> sprites = new List<Sprite>();
-            sprites.Add(_level.Hero);           
-            collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, sprites);
-            collisionSpriteRight = _level.CheckCollisionRightSprites(this, sprites);
-            collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, sprites);
-            if(!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteBottom)
-            {
-                collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
-            }
-
-            
+            CheckCollisions();
 
             positie += velocity;
 
@@ -183,12 +277,12 @@ namespace GameDevProject
                 {
                     alive = false;
                     delay.setDelay(0.1f);
-                    if(dying < 4)
+                    if (dying < 4)
                     {
                         dying++;
                     }
                 }
-                
+
 
                 if (collisionTop)
                 {
@@ -203,8 +297,11 @@ namespace GameDevProject
                 }
             }
 
-   
+            UpdateCollisionRectangle();
+        }
 
+        private void UpdateCollisionRectangle()
+        {
             collisionRectangle.X = (int)positie.X;
             collisionRectangle.Y = (int)positie.Y;
 
@@ -221,13 +318,33 @@ namespace GameDevProject
             collisionRectangleRight.Y = (int)positie.Y;
         }
 
+        private void CheckCollisions()
+        {
+            //controleren op collissions
+            collisionTop = _level.CheckCollisionTop(this);
+            collisionLeft = _level.CheckCollisionLeft(this);
+            collisionRight = _level.CheckCollisionRight(this);
+            collisionBottom = _level.CheckCollisionBottom(this);
+
+            //controleren of sprite geraakt wordt door player
+            List<Sprite> sprites = new List<Sprite>();
+            sprites.Add(_level.Hero);
+            collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, sprites);
+            collisionSpriteRight = _level.CheckCollisionRightSprites(this, sprites);
+            collisionSpriteTop = _level.CheckCollisionTopSprites(this, sprites);
+            if (!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteTop)
+            {
+                collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, sprites);
+            }
+        }
+
         public void DrawAnt(SpriteBatch spriteBatch)
         {
             if (right && alive) spriteBatch.Draw(antRight[walking], positie, Color.AliceBlue);
             if (!right && alive) spriteBatch.Draw(antLeft[walking], positie, Color.AliceBlue);
             if (!alive)
             {
-                if(dying < 3)
+                if (dying < 3)
                 {
                     spriteBatch.Draw(enemyDying[dying], positie, Color.AliceBlue);
                 }

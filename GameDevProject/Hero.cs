@@ -71,11 +71,13 @@ namespace GameDevProject
             delay = new Delay(0.15f);
 
             // hero positie geven op veld
-            positie = level.beginPositieHero;
-
+            positie = _level.beginPositieHero;
+            
+            //BUG AT RIGHT SIDE BLOK COLLISION
+         
             //collision detection vierkant aanmaken
-            collisionRectangle = new Rectangle((int)positie.X + 22, (int)positie.Y + 23, 30, 25);
-            collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y, 30, 10);
+            collisionRectangle = new Rectangle((int)positie.X + 22, (int)positie.Y + 30, 30, 25);
+            collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y+30, 30, 1);
             collisionRectangleBottom = new Rectangle((int)positie.X + 22, (int)positie.Y + 48, 30, 10);
             collisionRectangleLeft = new Rectangle((int)positie.X + 38, (int)positie.Y + 23, 10, 25);
             collisionRectangleRight = new Rectangle((int)positie.X + 22, (int)positie.Y + 23, 10, 25);
@@ -170,6 +172,7 @@ namespace GameDevProject
                 spriteHit = true;
                 hurtAmount++;
                 Console.WriteLine(spriteHit);
+                positie = _level.beginPositieHero;
             }
             else //TODO HURT LOGIC
             {
@@ -345,11 +348,12 @@ namespace GameDevProject
             collisionRectangleRight.Y = (int)positie.Y;
         }
 
-
-
-
         public override void Draw(SpriteBatch spritebatch)
         {
+           /* Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
+            spritebatch.Draw(collisionRectangle, rectPos, Color.Red);*/
+            //Drawing hitboxes
+
             if (_bediening.up || hasJumped)
             {
                 //logic for left and right jump
