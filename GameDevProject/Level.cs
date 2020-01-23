@@ -19,36 +19,55 @@ namespace GameDevProject
         // array maken van blokken
         public Blok[,] blokArray;
 
-        //collider aanmaken
-        Collider collider;
+        //Textures
+        protected Texture2D[] levelTextures = new Texture2D[64];
 
         // level initialiseren
         public Level(ContentManager content)
         {
             // textures die voor alle levels hetzelfde zijn inladen
-            TijdelijkeTexture = content.Load<Texture2D>("tijdelijk/Tile2");
-            collider = new Collider();
+            //TijdelijkeTexture = content.Load<Texture2D>("tijdelijk/Tile2");
+
+            LoadTextures(content);
+
+            
         }
 
-
+        private void LoadTextures(ContentManager content)
+        {
+            for(int i = 0; i < 63; i++)
+            {
+                levelTextures[i] = content.Load<Texture2D>("level/" + i);
+            }
+        }
 
         public override void CreateWorld()
         {
+            
             blokArray = new Blok[tileArray.GetLength(0), tileArray.GetLength(1)];
             for (int x = 0; x < tileArray.GetLength(0); x++)
             {
                 for (int y = 0; y < tileArray.GetLength(1); y++)
                 {
-                    switch (tileArray[x, y])
+                    if (tileArray[x, y] == 99)
                     {
+                        blokArray[x, y] = new Blok(levelTextures[tileArray[x, y]], new Vector2(y * 70, x * 70));
+                        blokArray[x, y].collision = true;
+                    }
+                    /*
+                        switch (tileArray[x, y])
+                        {
                         //logica voor de verschillende textures toevoegen
+                        
+
                         case 1:
-                            blokArray[x, y] = new Blok(TijdelijkeTexture, new Vector2(y*70, x*70));
+                            blokArray[x, y] = new Blok(TijdelijkeTexture, new Vector2(y * 70, x * 70));
                             blokArray[x, y].collision = true;
                             break;
-                        default:
-                            break;
-                    }
+
+                            default:
+                                break;
+                        }    */                                  
                 }
             }
         }
