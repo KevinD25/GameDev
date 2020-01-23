@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject
 {
-    class Sprite
+    public class Sprite
     {
         public Rectangle collisionRectangle;
         public Rectangle collisionRectangleBottom;

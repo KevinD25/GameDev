@@ -1,20 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameDevProject
 {
-    class Camera2d
+    public class Camera2d
     {
-        // code van Ovyou: https://www.youtube.com/watch?v=ceBCDKU_mNw
-
-        public Matrix transform { get; private set; }
+        public Matrix Transform { get; private set; }
 
         public void Follow(Hero target)
         {
-           /* var position = Matrix.CreateTranslation(-target.positie.X - (target.viewRechtangle.Width / 2), -target.positie.Y - (target.viewRechtangle.Height / 2), 0);
+            var position = Matrix.CreateTranslation(
+                -target.positie.X - (target.collisionRectangle.Width / 2),
+                -target.positie.Y - (target.collisionRectangle.Height / 2),
+                0);
 
-            var offset = Matrix.CreateTranslation(Game1.screenWidth / 2, Game1.screenHeight / 2, 0);
-
-            transform = position * offset;*/
+            var offset = Matrix.CreateTranslation(
+                    Game1.screenWidth / 3,
+                    Game1.screenHeight / 2f,
+                    0);
+            Transform =  position * offset;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject
 {
-    class Delay
+    public class Delay
     {
 
         //SOURCE (https://www.youtube.com/watch?v=kWQdCs0YrTw&feature=share&fbclid=IwAR2ngiRZcjAgUQNJ2_Iix3fJgtzD5cJlOhNj_uSDzftvS6VhuhgXmvArBQc)

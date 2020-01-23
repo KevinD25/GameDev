@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject
 {
-    class Level : LevelBase
+    public class Level : LevelBase
     {
         public Texture2D TijdelijkeTexture;
 

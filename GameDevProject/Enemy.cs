@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject
 {
-    class Enemy : Sprite
+    public class Enemy : Sprite
     {
 
 
@@ -35,6 +35,7 @@ namespace GameDevProject
         protected Vector2 positie;
         protected Vector2 velocity;
         protected Vector2 startPositie;
+
 
         protected Texture2D[] enemyDying = new Texture2D[4];
 
@@ -102,6 +103,7 @@ namespace GameDevProject
         static Texture2D[] acorn = new Texture2D[3];
         private bool collected = false;
         private int collectable = 0;
+        private bool firsthit = true;
 
         public Acorn(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
         {
@@ -130,9 +132,13 @@ namespace GameDevProject
 
         public void UpdateAcorn(float elapsedTime, GameTime gameTime)
         {
-            if (CheckCollisions())
+            
+            if (CheckCollisions() && !collected)
             {
                 collected = true;
+                if (firsthit && collected) _level.Hero.collectedAcorns++;  //Acorns collected
+                firsthit = false;
+                Console.WriteLine(_level.Hero.collectedAcorns);
                 //Console.WriteLine("COLLECTED");
             }
 
@@ -194,11 +200,14 @@ namespace GameDevProject
         private int walking = 0;
         private bool right = true;
         private int dying = 0;
+        private float YPositie;
 
         public Ant(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
         {
             positie = beginPositie;
             startPositie = beginPositie;
+            YPositie = startPositie.Y + 16;     
+
             //collision detection vierkant aanmaken
             collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y + 23, 37, 31);
             collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y - 5, 37, 5);
@@ -276,24 +285,35 @@ namespace GameDevProject
                 if (collisionSpriteTop)
                 {
                     alive = false;
-                    delay.setDelay(0.1f);
+                    positie.Y = YPositie;
+                   /* delay.setDelay(0.1f);
+                    if (dying < 4)
+                    {
+                        dying++;
+                    }*/
+                }   
+
+                if (collisionTop)
+                {                
+                    positie.Y = _level.collisionMargin - collisionRectangle.Height - 1;
+                    bovenCollision = false;
+                }
+                if (!collisionTop)
+                {                   
+                    float i = 1;
+                    velocity.Y += 0.50f * i; ;
+                }
+            }
+
+            if (!alive && dying < 4)
+            {
+                delay.setDelay(0.2f);
+                if (delay.timerDone(gameTime))
+                {
                     if (dying < 4)
                     {
                         dying++;
                     }
-                }
-
-
-                if (collisionTop)
-                {
-                    positie.Y = _level.collisionMargin - collisionRectangle.Height - 1;
-                    //Console.WriteLine(positie.Y + " " + positie.X);
-                    bovenCollision = false;
-                }
-                if (!collisionTop)
-                {
-                    float i = 1;
-                    velocity.Y += 0.50f * i; ;
                 }
             }
 
@@ -341,12 +361,16 @@ namespace GameDevProject
         public void DrawAnt(SpriteBatch spriteBatch)
         {
             if (right && alive) spriteBatch.Draw(antRight[walking], positie, Color.AliceBlue);
-            if (!right && alive) spriteBatch.Draw(antLeft[walking], positie, Color.AliceBlue);
-            if (!alive)
+            if (!right && alive)
             {
-                if (dying < 3)
+                spriteBatch.Draw(antLeft[walking], positie, Color.AliceBlue);
+            }
+            if (!alive && dying < 4)
+            {
+                if (dying < 4)
                 {
-                    spriteBatch.Draw(enemyDying[dying], positie, Color.AliceBlue);
+                    spriteBatch.Draw(enemyDying[dying], new Vector2(positie.X, YPositie), Color.AliceBlue); 
+                    //spriteBatch.Draw(enemyDying[dying], positie, Color.AliceBlue);
                 }
             }
         }

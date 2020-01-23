@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameDevProject
 {
-    class LevelBase
+    public class LevelBase
     {
 
         public Vector2 beginPositieHero = new Vector2(0, 0);

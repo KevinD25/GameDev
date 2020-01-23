@@ -15,6 +15,7 @@ namespace GameDevProject
         Camera2d camera;
         Hero hero;
         Enemy enemy;
+        
 
         //variabele voor levels aan te maken
         AllLevels levels;
@@ -24,6 +25,9 @@ namespace GameDevProject
         public static int screenWidth;
 
         float elapsedTime, timescale;
+
+        
+        
 
         public Game1()
         {
@@ -41,6 +45,19 @@ namespace GameDevProject
         {
             // TODO: Add your initialization logic here
 
+            // verander grootte van scherm
+            graphics.PreferredBackBufferWidth = 600;
+            graphics.PreferredBackBufferHeight = 300;
+            //graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
+
+            // geef hoogte en breedte van scherm aan variabele
+            screenHeight = graphics.PreferredBackBufferHeight;
+            screenWidth = graphics.PreferredBackBufferWidth;
+
+
+           
+
             timescale = 0.7f;
             base.Initialize();
         }
@@ -56,6 +73,7 @@ namespace GameDevProject
 
             // TODO: use this.Content to load your game content here
 
+            camera = new Camera2d();
             // alle levels initiëren
             levels = new AllLevels(Content);
 
@@ -65,10 +83,10 @@ namespace GameDevProject
         }
 
         private void NextLevel()
-        {
+        {           
             if(levels.huidigLevel is Level)
             {
-                // hero aanmaken
+                
                 hero = new Hero(Content, levels.huidigLevel);
 
                 hero._bediening = new BedieningPijltjes();
@@ -77,6 +95,11 @@ namespace GameDevProject
                 enemy.createEnemies(Content);
                 levels.huidigLevel.Hero = hero;
                 levels.huidigLevel.Enemy = enemy;
+                hero.levens = 3;
+            }
+            if (levels.huidigLevel is Level1)
+            {
+                hero.collectedAcorns = 0;
             }
 
             levels.CreateWorld();
@@ -103,16 +126,20 @@ namespace GameDevProject
                 Exit();
 
             // TODO: Add your update logic here
+            
             elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
             elapsedTime *= timescale;
             if (levels.huidigLevel is Level)
             {
                 hero.Update(elapsedTime, gameTime);
                 enemy.Update(elapsedTime, gameTime);
+
+                camera.Follow(hero);
             }
 
             base.Update(gameTime);
         }
+        
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -125,7 +152,8 @@ namespace GameDevProject
             // TODO: Add your drawing code here
             if (levels.huidigLevel is Level)
             {
-                spriteBatch.Begin();
+               
+                spriteBatch.Begin(transformMatrix: camera.Transform);
                 //level tekenen          
                 levels.DrawWorld(spriteBatch);
                 //hero tekenen

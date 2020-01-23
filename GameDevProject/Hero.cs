@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace GameDevProject
 {
-    class Hero : Sprite
+    public class Hero : Sprite
     {
 
         static Texture2D[] heroIdleRight = new Texture2D[8];
@@ -24,18 +24,15 @@ namespace GameDevProject
         public Rectangle collisionRectangleTop;
         public Rectangle collisionRectangleLeft;
         public Rectangle collisionRectangleRight;*/
-
-        Collider collider;
+      
 
         private bool right = true;
-        private bool moving = false;
+        public bool moving = false;
         private int idling = 0;
         private int walking = 0;
         private int jumping = 0;
-        private int crouching = 0;
-        private int hurt = 0;
+        private int crouching = 0;     
         private int currentSeconds;
-        private int hurtAmount = 0;
 
         private LevelBase _level;
         private Delay delay;
@@ -58,9 +55,13 @@ namespace GameDevProject
 
         public Bediening _bediening { get; set; }
 
+        public int collectedAcorns;
+        public int levens;
+        public bool firstHitEnemy = true;
+
         public Vector2 positie;
         private bool hasJumped;
-        private Vector2 velocity;
+        public Vector2 velocity;
         public bool onBlock;
 
         static Texture2D custom;
@@ -151,16 +152,23 @@ namespace GameDevProject
             positie += velocity;
 
 
-            //TODO Collision logic in if statements
+            //Collision logic in if statements
 
-            if (collisionSpriteTop || collisionSpriteLeft || collisionSpriteRight)
+            if (collisionSpriteTop || collisionSpriteLeft || collisionSpriteRight) //Hero gets hit by sprite
             {
-                spriteHit = true;
-                hurtAmount++;
+                spriteHit = true; 
+                if(spriteHit && firstHitEnemy && levens > 0)
+                {
+                    levens--;
+                    firstHitEnemy = false;
+                    Console.WriteLine(levens);
+                }
+                
                 //Console.WriteLine(spriteHit);
                 positie = _level.beginPositieHero;
+                firstHitEnemy = true;
             }
-            else //TODO HURT LOGIC
+            else // HURT LOGIC
             {
                 currentSeconds = gameTime.ElapsedGameTime.Seconds;
                 if (gameTime.ElapsedGameTime.Seconds - currentSeconds == 3)
@@ -210,7 +218,7 @@ namespace GameDevProject
                 //Running speed
                 if (delay.timerDone(gameTime))
                 {
-                    positie.X += 6; //Running distance per tick
+                    positie.X += 7; //Running distance per tick
                     if (walking < 5 && right)
                     {
                         walking++;
@@ -228,7 +236,7 @@ namespace GameDevProject
                 if (!hasJumped) delay.setDelay(0.07f);
                 if (delay.timerDone(gameTime))
                 {
-                    positie.X += -6;
+                    positie.X += -7;
                     if (walking < 5 && !right)
                     {
                         walking++;
@@ -349,23 +357,25 @@ namespace GameDevProject
             collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, _level.Enemy.ants);
             collisionSpriteRight = _level.CheckCollisionRightSprites(this, _level.Enemy.ants);
 
-            /*if (!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteTop)
+           /* if (!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteTop)
             {
                 collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, _level.Enemy.ants);
                 if (collisionSpriteBottom)
                 {
                     Console.WriteLine("Hitting TOP OF ENEMY - JUMP");
                     delay.setDelay(0.07f);
+                    
                 if (delay.timerDone(gameTime))
                 {
+                        Console.WriteLine("JUUUMPPPPP");
                     positie.Y = positie.Y - 10f; //jump height
-                    velocity.Y = -8f; //Drop speed
+                    velocity.Y = -8f; //speed
                     hasJumped = true;
                     collisionTop = false;
                 }        
                 }
                     
-            }*/ //BUG IN JUMP AFTER HITTING SPRITE
+            } *///BUG IN JUMP AFTER HITTING SPRITE
 
         }
 
@@ -374,11 +384,11 @@ namespace GameDevProject
             Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
             
             
-            spritebatch.Draw(custom, collisionRectangle, Color.Red);
+            /*spritebatch.Draw(custom, collisionRectangle, Color.Red);
             spritebatch.Draw(custom, collisionRectangleLeft, Color.Red);
             spritebatch.Draw(custom, collisionRectangleRight, Color.Red);
             spritebatch.Draw(custom, collisionRectangleTop, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);
+            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);*/
             //Drawing hitboxes
 
             if (_bediening.up || hasJumped)
