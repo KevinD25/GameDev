@@ -68,39 +68,39 @@ namespace GameDevProject
                             blokArray[x, y] = new Blok(levelTextures[0], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 1:
+                        case 01:
                             blokArray[x, y] = new Blok(levelTextures[1], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 2:
+                        case 02:
                             blokArray[x, y] = new Blok(levelTextures[2], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 3:
+                        case 03:
                             blokArray[x, y] = new Blok(levelTextures[3], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 4:
+                        case 04:
                             blokArray[x, y] = new Blok(levelTextures[4], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 5:
+                        case 05:
                             blokArray[x, y] = new Blok(levelTextures[5], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 6:
+                        case 06:
                             blokArray[x, y] = new Blok(levelTextures[6], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 7:
+                        case 07:
                             blokArray[x, y] = new Blok(levelTextures[7], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 8:
+                        case 08:
                             blokArray[x, y] = new Blok(levelTextures[8], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;
-                        case 9:
+                        case 09:
                             blokArray[x, y] = new Blok(levelTextures[9], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
                             break;

@@ -285,8 +285,8 @@ namespace GameDevProject
             {
                 // hero laten springen (SOURCE: https://www.youtube.com/watch?v=ZLxIShw-7ac&t=303s)
 
-                positie.Y = positie.Y - 10f; //jump height
-                velocity.Y = -5f; //Drop speed
+                positie.Y = positie.Y - 10f; //jump speed
+                velocity.Y = -5.3f; //Jump height
                 hasJumped = true;
                 canJump = false;
                 collisionTop = false;
@@ -391,11 +391,11 @@ namespace GameDevProject
             Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
             
             
-            spritebatch.Draw(custom, collisionRectangle, Color.Red);
+          /*  spritebatch.Draw(custom, collisionRectangle, Color.Red);
             spritebatch.Draw(custom, collisionRectangleLeft, Color.Red);
             spritebatch.Draw(custom, collisionRectangleRight, Color.Red);
             spritebatch.Draw(custom, collisionRectangleTop, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);
+            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);*/
             //Drawing hitboxes
 
             if (_bediening.up &&!onBlock  || hasJumped && !onBlock )
