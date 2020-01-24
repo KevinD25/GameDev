@@ -18,8 +18,8 @@ namespace GameDevProject
             //Set hero positie
             beginPositieHero = new Vector2(590, 520);
             //Set ants positie - set aantal ants
-            beginPositieAnts.Add(new Vector2(530, 232));
-            beginPositieAnts.Add(new Vector2(310, 232));
+            beginPositieAnts.Add(new Vector2(680, 540));
+            beginPositieAnts.Add(new Vector2(920, 540));
 
 
 
