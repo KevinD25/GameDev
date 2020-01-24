@@ -46,7 +46,7 @@ namespace GameDevProject
             // TODO: Add your initialization logic here
 
             // verander grootte van scherm
-            graphics.PreferredBackBufferWidth = 600;
+            graphics.PreferredBackBufferWidth = 400;
             graphics.PreferredBackBufferHeight = 300;
             //graphics.IsFullScreen = true;
             graphics.ApplyChanges();
