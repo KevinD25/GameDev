@@ -63,6 +63,7 @@ namespace GameDevProject
         private bool hasJumped;
         public Vector2 velocity;
         public bool onBlock;
+        public bool canJump;
 
         static Texture2D custom;
 
@@ -280,13 +281,14 @@ namespace GameDevProject
                     }
                 }
             } //idle
-            if (_bediening.up && hasJumped == false && onBlock)
+            if (_bediening.up && !hasJumped && onBlock && canJump)
             {
                 // hero laten springen (SOURCE: https://www.youtube.com/watch?v=ZLxIShw-7ac&t=303s)
 
                 positie.Y = positie.Y - 10f; //jump height
-                velocity.Y = -8f; //Drop speed
+                velocity.Y = -5f; //Drop speed
                 hasJumped = true;
+                canJump = false;
                 collisionTop = false;
 
                 /*if (delay.timerDone(gameTime))
@@ -301,6 +303,10 @@ namespace GameDevProject
                                     jumping = 0;
                                 }*/
                 //}
+            }
+            if (!_bediening.up)
+            {
+                canJump = true;
             }
 
             if (collisionTop)
@@ -345,9 +351,10 @@ namespace GameDevProject
         private void CheckCollisions(GameTime gameTime)
         {
             //controleren op collissions
-            collisionTop = _level.CheckCollisionTop(this);
+            
             collisionLeft = _level.CheckCollisionLeft(this);
             collisionRight = _level.CheckCollisionRight(this);
+            collisionTop = _level.CheckCollisionTop(this);
             collisionBottom = _level.CheckCollisionBottom(this);
 
 
@@ -384,14 +391,14 @@ namespace GameDevProject
             Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
             
             
-            /*spritebatch.Draw(custom, collisionRectangle, Color.Red);
+            spritebatch.Draw(custom, collisionRectangle, Color.Red);
             spritebatch.Draw(custom, collisionRectangleLeft, Color.Red);
             spritebatch.Draw(custom, collisionRectangleRight, Color.Red);
             spritebatch.Draw(custom, collisionRectangleTop, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);*/
+            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);
             //Drawing hitboxes
 
-            if (_bediening.up || hasJumped)
+            if (_bediening.up &&!onBlock  || hasJumped && !onBlock )
             {
                 //logic for left and right jump
                 if (right)

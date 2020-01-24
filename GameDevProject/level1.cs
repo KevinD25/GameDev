@@ -16,7 +16,7 @@ namespace GameDevProject
         public Level1(ContentManager content) : base(content)
         {
             //Set hero positie
-            beginPositieHero = new Vector2(110, 220);
+            beginPositieHero = new Vector2(150, 220);
             //Set ants positie - set aantal ants
             beginPositieAnts.Add(new Vector2(530, 232));
             beginPositieAnts.Add(new Vector2(310, 232));
