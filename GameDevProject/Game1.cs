@@ -16,6 +16,7 @@ namespace GameDevProject
         Hero hero;
         Enemy enemy;
         Gui gui;
+        Achtergrond achtergrond;
         
 
         //variabele voor levels aan te maken
@@ -77,6 +78,7 @@ namespace GameDevProject
             camera = new Camera2d();
             // alle levels initiëren
             levels = new AllLevels(Content);
+            achtergrond = new Achtergrond(Content, camera);
 
             NextLevel();
 
@@ -137,6 +139,7 @@ namespace GameDevProject
                 enemy.Update(elapsedTime, gameTime);
 
                 camera.Follow(hero);
+                achtergrond.camera = camera;
 
                 if (hero.collisionEndpoint)
                 {
@@ -160,7 +163,11 @@ namespace GameDevProject
             if (levels.huidigLevel is Level)
             {
 
-                spriteBatch.Begin(transformMatrix: camera.Transform);
+                //achtergrond tekenen
+                achtergrond.drawBackground(spriteBatch, GraphicsDevice);
+
+                spriteBatch.Begin(transformMatrix: camera.Transform);    
+
                 //level tekenen          
                 levels.DrawWorld(spriteBatch);
                 //hero tekenen

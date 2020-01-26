@@ -48,12 +48,12 @@ namespace GameDevProject
         public bool collisionLeft = false;
         public bool collisionBottom = false;
 
+        public bool collisionEndpoint = false;
+
         public bool collisionSpriteTop = false;
         public bool collisionSpriteRight = false;
         public bool collisionSpriteLeft = false;
         public bool collisionSpriteBottom = false;
-
-        public bool collisionEndpoint = false;
 
         public Bediening _bediening { get; set; }
 
@@ -62,13 +62,10 @@ namespace GameDevProject
         public bool firstHitEnemy = true;
 
         public Vector2 positie;
-
         private bool hasJumped;
         public Vector2 velocity;
         public bool onBlock;
         public bool canJump;
-
-        private float YPositie;
 
         static Texture2D custom;
 
@@ -81,10 +78,9 @@ namespace GameDevProject
 
             // hero positie geven op veld
             positie = _level.beginPositieHero;
-            YPositie = _level.beginPositieHero.Y;
-
+            
             //BUG AT RIGHT SIDE BLOK COLLISION
-
+         
             //collision detection vierkant aanmaken
             collisionRectangle = new Rectangle((int)positie.X + 22, (int)positie.Y + 30, 19, 25);
             collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y+30, 19, 1);
@@ -173,10 +169,6 @@ namespace GameDevProject
                 
                 //Console.WriteLine(spriteHit);
                 positie = _level.beginPositieHero;
-                positie.Y = YPositie;
-                Console.WriteLine(positie);
-                Console.WriteLine(YPositie);
-                Console.WriteLine(positie);
                 firstHitEnemy = true;
             }
             else // HURT LOGIC
@@ -341,13 +333,7 @@ namespace GameDevProject
 
             //if()
 
-            UpdateColisionRectangle();
 
-
-        }
-
-        private void UpdateColisionRectangle()
-        {
             collisionRectangle.X = (int)positie.X + 33;
             collisionRectangle.Y = (int)positie.Y + 20;
 
@@ -357,10 +343,10 @@ namespace GameDevProject
             collisionRectangleBottom.X = (int)positie.X + 33;
             collisionRectangleBottom.Y = (int)positie.Y + 48;
 
-            collisionRectangleLeft.X = (int)positie.X + 47;
+            collisionRectangleLeft.X = (int)positie.X + 50;
             collisionRectangleLeft.Y = (int)positie.Y + 20;
 
-            collisionRectangleRight.X = (int)positie.X + 27;
+            collisionRectangleRight.X = (int)positie.X + 30;
             collisionRectangleRight.Y = (int)positie.Y + 20;
         }
 
@@ -372,7 +358,6 @@ namespace GameDevProject
             collisionRight = _level.CheckCollisionRight(this);
             collisionTop = _level.CheckCollisionTop(this);
             collisionBottom = _level.CheckCollisionBottom(this);
-
             collisionEndpoint = _level.CheckEndpoint(this);
 
 
@@ -407,13 +392,13 @@ namespace GameDevProject
         public override void Draw(SpriteBatch spritebatch)
         {
             Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
-            
-            
-          /*  spritebatch.Draw(custom, collisionRectangle, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleLeft, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleRight, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleTop, Color.Red);
-            spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);*/
+            Console.WriteLine("X = " + positie.X + " | Y = " + positie.Y);
+
+             /*spritebatch.Draw(custom, collisionRectangle, Color.Red);
+              spritebatch.Draw(custom, collisionRectangleLeft, Color.Red);
+              spritebatch.Draw(custom, collisionRectangleRight, Color.Red);
+              spritebatch.Draw(custom, collisionRectangleTop, Color.Red);
+              spritebatch.Draw(custom, collisionRectangleBottom, Color.Red);*/
             //Drawing hitboxes
 
             if (_bediening.up &&!onBlock  || hasJumped && !onBlock )

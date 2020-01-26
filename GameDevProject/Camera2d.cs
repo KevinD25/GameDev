@@ -5,7 +5,7 @@ namespace GameDevProject
 {
     public class Camera2d
     {
-        public Matrix Transform { get; private set; }
+        public Matrix Transform { get; private set; }   
 
         public void Follow(Hero target)
         {
@@ -18,7 +18,7 @@ namespace GameDevProject
                     Game1.screenWidth / 3,
                     Game1.screenHeight / 2f,
                     0);
-            Transform =  position * offset;
+            Transform =  position * offset;          
         }
     }
 }

@@ -44,6 +44,7 @@ namespace GameDevProject
         public override void CreateWorld()
         {
             
+
             blokArray = new Blok[tileArray.GetLength(0), tileArray.GetLength(1)];
             for (int x = 0; x < tileArray.GetLength(0); x++)
             {

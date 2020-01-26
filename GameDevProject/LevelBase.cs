@@ -15,6 +15,7 @@ namespace GameDevProject
         public List<Vector2> beginPositieAnts = new List<Vector2>();
         public List<Vector2> beginPositieAcorns = new List<Vector2>();
         public int heroLives = 3;
+       
         public Hero Hero { get; set; }
         public Enemy Enemy { get; set; }
 
