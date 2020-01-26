@@ -331,7 +331,13 @@ namespace GameDevProject
 
             //if()
 
+            UpdateColisionRectangle();
 
+
+        }
+
+        private void UpdateColisionRectangle()
+        {
             collisionRectangle.X = (int)positie.X + 33;
             collisionRectangle.Y = (int)positie.Y + 20;
 

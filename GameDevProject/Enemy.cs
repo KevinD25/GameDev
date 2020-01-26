@@ -211,12 +211,15 @@ namespace GameDevProject
             YPositie = startPositie.Y + 16;     
 
             //collision detection vierkant aanmaken
-            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y + 23, 37, 30);
-            collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y, 37, 0);
-            collisionRectangleBottom = new Rectangle((int)positie.X, (int)positie.Y + 48, 37, 1);
+            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y + 23, 37, 31);
+            collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y - 5, 37, 5);
+            collisionRectangleBottom = new Rectangle((int)positie.X, (int)positie.Y + 48, 37, 5);
             collisionRectangleLeft = new Rectangle((int)positie.X + 37, (int)positie.Y + 31, 5, 31);
             collisionRectangleRight = new Rectangle((int)positie.X, (int)positie.Y + 31, 5, 31);
 
+
+
+            
             LoadTextures(cnt);
         }
 
@@ -330,7 +333,7 @@ namespace GameDevProject
             collisionRectangle.Y = (int)positie.Y;
 
             collisionRectangleTop.X = (int)positie.X;
-            collisionRectangleTop.Y = (int)positie.Y;
+            collisionRectangleTop.Y = (int)positie.Y - 5;
 
             collisionRectangleBottom.X = (int)positie.X;
             collisionRectangleBottom.Y = (int)positie.Y + 31;
