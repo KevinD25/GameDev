@@ -369,11 +369,11 @@ namespace GameDevProject
         {
 
             Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
-            spriteBatch.Draw(custom, collisionRectangle, Color.Red);
+           /* spriteBatch.Draw(custom, collisionRectangle, Color.Red);
             spriteBatch.Draw(custom, collisionRectangleLeft, Color.Red);
             spriteBatch.Draw(custom, collisionRectangleRight, Color.Red);
             spriteBatch.Draw(custom, collisionRectangleTop, Color.Red);
-            spriteBatch.Draw(custom, collisionRectangleBottom, Color.Red);
+            spriteBatch.Draw(custom, collisionRectangleBottom, Color.Red);*/
             //Drawing hitboxes
 
 
