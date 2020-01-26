@@ -17,17 +17,36 @@ namespace GameDevProject
         {
             //Set hero positie
             beginPositieHero = new Vector2(590, 520);
+
             //Set ants positie - set aantal ants
-            beginPositieAnts.Add(new Vector2(680, 540));
-            beginPositieAnts.Add(new Vector2(920, 540));
+            beginPositieAnts.Add(new Vector2(810, 540));
+            beginPositieAnts.Add(new Vector2(1100, 540));
+            beginPositieAnts.Add(new Vector2(1385, 657));
+            beginPositieAnts.Add(new Vector2(1583, 540));
+            beginPositieAnts.Add(new Vector2(1593, 465));
+            beginPositieAnts.Add(new Vector2(1843, 420));
+            beginPositieAnts.Add(new Vector2(2368, 732));
+            beginPositieAnts.Add(new Vector2(2186, 732));
 
 
 
             //Set acorns positie - set aantal acorns
-            beginPositieAcorns.Add(new Vector2(200, 230));
-            beginPositieAcorns.Add(new Vector2(200, 160));
-            beginPositieAcorns.Add(new Vector2(300, 200));
-            beginPositieAcorns.Add(new Vector2(110, 250));
+            beginPositieAcorns.Add(new Vector2(700, 565));
+            beginPositieAcorns.Add(new Vector2(740, 565));
+            beginPositieAcorns.Add(new Vector2(780, 565));
+            beginPositieAcorns.Add(new Vector2(1095, 480));
+            beginPositieAcorns.Add(new Vector2(1395, 630));
+            beginPositieAcorns.Add(new Vector2(1435, 537));
+            beginPositieAcorns.Add(new Vector2(1585, 480));
+            beginPositieAcorns.Add(new Vector2(1875, 395));
+            beginPositieAcorns.Add(new Vector2(2275, 600));
+            beginPositieAcorns.Add(new Vector2(2165, 630));
+            beginPositieAcorns.Add(new Vector2(2525, 745));
+            beginPositieAcorns.Add(new Vector2(2575, 655));
+            beginPositieAcorns.Add(new Vector2(2525, 475));
+            beginPositieAcorns.Add(new Vector2(2705, 465));
+            beginPositieAcorns.Add(new Vector2(2725, 465));
+            beginPositieAcorns.Add(new Vector2(2745, 465));
 
             tileArray = new byte[,]
         {

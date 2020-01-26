@@ -202,6 +202,8 @@ namespace GameDevProject
         private int dying = 0;
         private float YPositie;
 
+        static Texture2D custom;
+
         public Ant(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
         {
             positie = beginPositie;
@@ -209,9 +211,9 @@ namespace GameDevProject
             YPositie = startPositie.Y + 16;     
 
             //collision detection vierkant aanmaken
-            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y + 23, 37, 31);
-            collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y - 5, 37, 5);
-            collisionRectangleBottom = new Rectangle((int)positie.X, (int)positie.Y + 48, 37, 5);
+            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y + 23, 37, 30);
+            collisionRectangleTop = new Rectangle((int)positie.X, (int)positie.Y, 37, 0);
+            collisionRectangleBottom = new Rectangle((int)positie.X, (int)positie.Y + 48, 37, 1);
             collisionRectangleLeft = new Rectangle((int)positie.X + 37, (int)positie.Y + 31, 5, 31);
             collisionRectangleRight = new Rectangle((int)positie.X, (int)positie.Y + 31, 5, 31);
 
@@ -222,6 +224,8 @@ namespace GameDevProject
 
         public override void LoadTextures(ContentManager cnt)
         {
+            custom = cnt.Load<Texture2D>("tijdelijk/custom");
+
             for (int i = 0; i < 8; i++)
             {
                 antRight[i] = cnt.Load<Texture2D>("ant/right/ant-" + (i + 1));
@@ -326,7 +330,7 @@ namespace GameDevProject
             collisionRectangle.Y = (int)positie.Y;
 
             collisionRectangleTop.X = (int)positie.X;
-            collisionRectangleTop.Y = (int)positie.Y - 5;
+            collisionRectangleTop.Y = (int)positie.Y;
 
             collisionRectangleBottom.X = (int)positie.X;
             collisionRectangleBottom.Y = (int)positie.Y + 31;
@@ -360,6 +364,16 @@ namespace GameDevProject
 
         public void DrawAnt(SpriteBatch spriteBatch)
         {
+
+            Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
+            spriteBatch.Draw(custom, collisionRectangle, Color.Red);
+            spriteBatch.Draw(custom, collisionRectangleLeft, Color.Red);
+            spriteBatch.Draw(custom, collisionRectangleRight, Color.Red);
+            spriteBatch.Draw(custom, collisionRectangleTop, Color.Red);
+            spriteBatch.Draw(custom, collisionRectangleBottom, Color.Red);
+            //Drawing hitboxes
+
+
             if (right && alive) spriteBatch.Draw(antRight[walking], positie, Color.AliceBlue);
             if (!right && alive)
             {
