@@ -12,7 +12,7 @@ namespace GameDevProject
     {
         public Texture2D _texture { get; set; }
         public Vector2 positie { get; set; }
-
+        public bool endPoint = false;
         public Rectangle CollisionRectangle;
         public bool collision = false;
 

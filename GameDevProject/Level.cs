@@ -272,51 +272,63 @@ namespace GameDevProject
                         case 50:
                             blokArray[x, y] = new Blok(levelTextures[50], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 51:
                             blokArray[x, y] = new Blok(levelTextures[51], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 52:
                             blokArray[x, y] = new Blok(levelTextures[52], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 53:
                             blokArray[x, y] = new Blok(levelTextures[53], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 54:
                             blokArray[x, y] = new Blok(levelTextures[54], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 55:
                             blokArray[x, y] = new Blok(levelTextures[55], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 56:
                             blokArray[x, y] = new Blok(levelTextures[56], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 57:
                             blokArray[x, y] = new Blok(levelTextures[57], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 58:
                             blokArray[x, y] = new Blok(levelTextures[58], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
 
                         case 59:
                             blokArray[x, y] = new Blok(levelTextures[59], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 60:
                             blokArray[x, y] = new Blok(levelTextures[60], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 61:
                             blokArray[x, y] = new Blok(levelTextures[61], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 62:
                             blokArray[x, y] = new Blok(levelTextures[62], new Vector2(y * 15, x * 15));
@@ -443,6 +455,24 @@ namespace GameDevProject
             }
             return hit;
 
+        }
+
+        public override bool CheckEndpoint(Hero hero)
+        {
+            bool hit = false;
+
+            foreach (Blok blok in blokArray)
+            {
+                if (blok is Blok && blok.endPoint)
+                {
+                    if (hero.collisionRectangle.Intersects(blok.CollisionRectangle))
+                    {
+                        hit = true;
+                        Console.WriteLine("endpoint");
+                    }
+                }
+            }
+            return hit;
         }
 
         public override bool CheckCollisionLeftSprites(Sprite player, List<Sprite> target)

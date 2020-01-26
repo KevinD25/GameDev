@@ -53,6 +53,8 @@ namespace GameDevProject
         public bool collisionSpriteLeft = false;
         public bool collisionSpriteBottom = false;
 
+        public bool collisionEndpoint = false;
+
         public Bediening _bediening { get; set; }
 
         public int collectedAcorns;
@@ -60,10 +62,13 @@ namespace GameDevProject
         public bool firstHitEnemy = true;
 
         public Vector2 positie;
+
         private bool hasJumped;
         public Vector2 velocity;
         public bool onBlock;
         public bool canJump;
+
+        private float YPositie;
 
         static Texture2D custom;
 
@@ -76,9 +81,10 @@ namespace GameDevProject
 
             // hero positie geven op veld
             positie = _level.beginPositieHero;
-            
+            YPositie = _level.beginPositieHero.Y;
+
             //BUG AT RIGHT SIDE BLOK COLLISION
-         
+
             //collision detection vierkant aanmaken
             collisionRectangle = new Rectangle((int)positie.X + 22, (int)positie.Y + 30, 19, 25);
             collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y+30, 19, 1);
@@ -167,6 +173,10 @@ namespace GameDevProject
                 
                 //Console.WriteLine(spriteHit);
                 positie = _level.beginPositieHero;
+                positie.Y = YPositie;
+                Console.WriteLine(positie);
+                Console.WriteLine(YPositie);
+                Console.WriteLine(positie);
                 firstHitEnemy = true;
             }
             else // HURT LOGIC
@@ -362,6 +372,8 @@ namespace GameDevProject
             collisionRight = _level.CheckCollisionRight(this);
             collisionTop = _level.CheckCollisionTop(this);
             collisionBottom = _level.CheckCollisionBottom(this);
+
+            collisionEndpoint = _level.CheckEndpoint(this);
 
 
             //Logica om na te kijken of player geraakt wordt door enemy

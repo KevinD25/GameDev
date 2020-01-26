@@ -51,6 +51,11 @@ namespace GameDevProject
             return false;
         }
 
+        public virtual bool CheckEndpoint(Hero hero)
+        {
+            return false;
+        }
+
         public virtual bool CheckCollisionTopSprites(Sprite player, List<Sprite> target)
         {
             return false;

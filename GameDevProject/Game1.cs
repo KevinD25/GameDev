@@ -15,6 +15,7 @@ namespace GameDevProject
         Camera2d camera;
         Hero hero;
         Enemy enemy;
+        Gui gui;
         
 
         //variabele voor levels aan te maken
@@ -96,6 +97,7 @@ namespace GameDevProject
                 levels.huidigLevel.Hero = hero;
                 levels.huidigLevel.Enemy = enemy;
                 hero.levens = 3;
+                gui = new Gui(Content);
             }
             if (levels.huidigLevel is Level1)
             {
@@ -135,6 +137,11 @@ namespace GameDevProject
                 enemy.Update(elapsedTime, gameTime);
 
                 camera.Follow(hero);
+
+                if (hero.collisionEndpoint)
+                {
+
+                }
             }
 
             base.Update(gameTime);
@@ -152,7 +159,7 @@ namespace GameDevProject
             // TODO: Add your drawing code here
             if (levels.huidigLevel is Level)
             {
-               
+
                 spriteBatch.Begin(transformMatrix: camera.Transform);
                 //level tekenen          
                 levels.DrawWorld(spriteBatch);
@@ -162,6 +169,19 @@ namespace GameDevProject
                 //enemy tekenen
                 enemy.Draw(spriteBatch);
 
+                spriteBatch.End();
+
+
+                gui.Draw(spriteBatch, hero);
+            }
+            else if (levels.huidigLevel is Startscherm)
+            {
+                spriteBatch.Begin();
+                spriteBatch.End();
+            }
+            else
+            {
+                spriteBatch.Begin();
                 spriteBatch.End();
             }
 
