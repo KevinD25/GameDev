@@ -239,36 +239,44 @@ namespace GameDevProject
                         case 42:
                             blokArray[x, y] = new Blok(levelTextures[42], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 43:
                             blokArray[x, y] = new Blok(levelTextures[43], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 44:
                             blokArray[x, y] = new Blok(levelTextures[44], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 45:
                             blokArray[x, y] = new Blok(levelTextures[45], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 46:
                             blokArray[x, y] = new Blok(levelTextures[46], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
 
                         case 47:
                             blokArray[x, y] = new Blok(levelTextures[47], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
 
                         case 48:
                             blokArray[x, y] = new Blok(levelTextures[48], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 49:
                             blokArray[x, y] = new Blok(levelTextures[49], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                         case 50:
                             blokArray[x, y] = new Blok(levelTextures[50], new Vector2(y * 15, x * 15));
@@ -334,6 +342,7 @@ namespace GameDevProject
                         case 62:
                             blokArray[x, y] = new Blok(levelTextures[62], new Vector2(y * 15, x * 15));
                             blokArray[x, y].collision = true;
+                            blokArray[x, y].endPoint = true;
                             break;
                        // case 63:
                           //  blokArray[x, y] = new Blok(levelTextures[63], new Vector2(y * 15, x * 15));

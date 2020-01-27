@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace GameDevProject
         public List<Vector2> beginPositieAnts = new List<Vector2>();
         public List<Vector2> beginPositieAcorns = new List<Vector2>();
         public int heroLives = 3;
+        public SoundEffect song;
        
         public Hero Hero { get; set; }
         public Enemy Enemy { get; set; }
@@ -30,6 +33,11 @@ namespace GameDevProject
         public virtual void DrawWorld(SpriteBatch spritebatch)
         {
 
+        }
+
+        public virtual bool CheckLevel()
+        {
+            return false;
         }
 
         public virtual bool CheckCollisionTop(Sprite sprite)

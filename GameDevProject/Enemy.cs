@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,8 @@ namespace GameDevProject
 
         public List<Sprite> ants = new List<Sprite>();
         public List<Sprite> acorns = new List<Sprite>();
+
+        
 
         public Enemy(ContentManager cnt, LevelBase level) : base()
         {
@@ -104,6 +108,8 @@ namespace GameDevProject
         private bool collected = false;
         private int collectable = 0;
         private bool firsthit = true;
+        SoundEffectInstance soundEffectCollect;
+        SoundEffect seCollect;
 
         public Acorn(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
         {
@@ -116,6 +122,9 @@ namespace GameDevProject
             collisionRectangleLeft = collisionRectangle;
             collisionRectangleRight = collisionRectangle;
 
+            seCollect = cnt.Load<SoundEffect>("effects/Pickup_Coin");
+            soundEffectCollect = seCollect.CreateInstance();
+            soundEffectCollect.Volume = 0.5f;
 
             LoadTextures(cnt);
         }
@@ -136,7 +145,11 @@ namespace GameDevProject
             if (CheckCollisions() && !collected)
             {
                 collected = true;
-                if (firsthit && collected) _level.Hero.collectedAcorns++;  //Acorns collected
+                if (firsthit && collected)
+                {
+                    _level.Hero.collectedAcorns++;  //Acorns collected
+                    soundEffectCollect.Play();
+                }
                 firsthit = false;
                 Console.WriteLine(_level.Hero.collectedAcorns);
                 //Console.WriteLine("COLLECTED");
@@ -204,6 +217,9 @@ namespace GameDevProject
 
         static Texture2D custom;
 
+        SoundEffectInstance soundEffectPop;
+        Song sePop;
+
         public Ant(ContentManager cnt, LevelBase level, Vector2 beginPositie) : base(cnt, level)
         {
             positie = beginPositie;
@@ -217,9 +233,11 @@ namespace GameDevProject
             collisionRectangleLeft = new Rectangle((int)positie.X + 37, (int)positie.Y + 31, 5, 31);
             collisionRectangleRight = new Rectangle((int)positie.X, (int)positie.Y + 31, 5, 31);
 
+            sePop = cnt.Load<Song>("effects/pop3");
+           /* soundEffectPop = sePop.CreateInstance();
+            soundEffectPop.Volume = 0.6f;*/
 
 
-            
             LoadTextures(cnt);
         }
 
@@ -293,6 +311,8 @@ namespace GameDevProject
                 {
                     alive = false;
                     positie.Y = YPositie;
+                    MediaPlayer.Volume = 0.8f;
+                    MediaPlayer.Play(sePop);
                    /* delay.setDelay(0.1f);
                     if (dying < 4)
                     {

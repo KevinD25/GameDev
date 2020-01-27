@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace GameDevProject
 {
@@ -17,10 +19,14 @@ namespace GameDevProject
         Enemy enemy;
         Gui gui;
         Achtergrond achtergrond;
+        SoundEffectInstance soundEffect;
+
         
 
         //variabele voor levels aan te maken
         AllLevels levels;
+        Startscherm startscherm;
+        Eindscherm eindscherm;
 
         //variable om camera te kunnen krijgen
         public static int screenHeight;
@@ -28,8 +34,6 @@ namespace GameDevProject
 
         float elapsedTime, timescale;
 
-        
-        
 
         public Game1()
         {
@@ -78,6 +82,8 @@ namespace GameDevProject
             camera = new Camera2d();
             // alle levels initiëren
             levels = new AllLevels(Content);
+            startscherm = new Startscherm(Content);
+            eindscherm = new Eindscherm(Content);
             achtergrond = new Achtergrond(Content, camera);
 
             NextLevel();
@@ -106,6 +112,12 @@ namespace GameDevProject
                 hero.collectedAcorns = 0;
             }
 
+            
+            soundEffect = levels.huidigLevel.song.CreateInstance();
+            soundEffect.Volume = 0.3f;
+            soundEffect.IsLooped = true;
+            soundEffect.Play();
+            
             levels.CreateWorld();
             
         }
@@ -143,8 +155,36 @@ namespace GameDevProject
 
                 if (hero.collisionEndpoint)
                 {
-
+                    soundEffect.Stop();
+                    levels.nextLevel();
+                    NextLevel();
                 }
+                if(hero.levens == 0)
+                {
+                    soundEffect.Stop();
+                    levels.restartGame();
+                    NextLevel();
+                }
+            }
+            else if(levels.huidigLevel is Startscherm)
+            {
+                if (levels.huidigLevel.CheckLevel())
+                {
+                    soundEffect.Stop();
+                    levels.startGame();
+                    NextLevel();
+                }
+            }
+            else if(levels.huidigLevel is Eindscherm)
+            {
+                if (levels.huidigLevel.CheckLevel())
+                {
+                    soundEffect.Stop();
+                    levels.restartGame();
+                    NextLevel();           
+                   
+                }
+                
             }
 
             base.Update(gameTime);
@@ -183,13 +223,11 @@ namespace GameDevProject
             }
             else if (levels.huidigLevel is Startscherm)
             {
-                spriteBatch.Begin();
-                spriteBatch.End();
+                startscherm.drawScreen(spriteBatch, GraphicsDevice);
             }
             else
             {
-                spriteBatch.Begin();
-                spriteBatch.End();
+                eindscherm.drawScreen(spriteBatch, GraphicsDevice);
             }
 
 

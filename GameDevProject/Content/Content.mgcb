@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../Sprites/beginscherm.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../Sprites/beginscherm.png;beginscherm.png
-
 #begin ../../Sprites/Tiles/2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -391,6 +379,24 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ant/right/ant-8.png
+
+#begin effects/Jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:effects/Jump.wav
+
+#begin effects/Pickup_Coin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:effects/Pickup_Coin.wav
+
+#begin effects/pop3.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:effects/pop3.ogg
 
 #begin eindscherm.png
 /importer:TextureImporter
@@ -2071,6 +2077,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Level1/tileset.png
+
+#begin music/eindscherm.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:music/eindscherm.wav
+
+#begin music/stage1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:music/stage1.wav
+
+#begin music/stage2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:music/stage2.wav
+
+#begin music/startscherm.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:music/startscherm.wav
+
+#begin startscherm.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:startscherm.png
 
 #begin tijdelijk/custom.png
 /importer:TextureImporter

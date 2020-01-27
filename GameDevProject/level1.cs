@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,10 @@ namespace GameDevProject
         {
             //Set hero positie
             beginPositieHero = new Vector2(590, 520);
+            /*beginPositieHero.X = 2750;
+            beginPositieHero.Y = 447;*/
+
+            song = content.Load<SoundEffect>("music/stage1");
 
             //Set ants positie - set aantal ants
             beginPositieAnts.Add(new Vector2(810, 520));

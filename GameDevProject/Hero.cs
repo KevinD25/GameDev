@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -62,10 +63,13 @@ namespace GameDevProject
         public bool firstHitEnemy = true;
 
         public Vector2 positie;
+        public Vector2 tempPos;
         private bool hasJumped;
         public Vector2 velocity;
         public bool onBlock;
         public bool canJump;
+        SoundEffectInstance soundEffectJump;
+        SoundEffect seJump;
 
         static Texture2D custom;
 
@@ -78,6 +82,7 @@ namespace GameDevProject
 
             // hero positie geven op veld
             positie = _level.beginPositieHero;
+            tempPos = _level.beginPositieHero;
             
             //BUG AT RIGHT SIDE BLOK COLLISION
          
@@ -86,7 +91,11 @@ namespace GameDevProject
             collisionRectangleTop = new Rectangle((int)positie.X + 22, (int)positie.Y+30, 19, 1);
             collisionRectangleBottom = new Rectangle((int)positie.X + 22, (int)positie.Y + 48, 19, 10);
             collisionRectangleLeft = new Rectangle((int)positie.X + 47, (int)positie.Y + 20, 10, 25);
-            collisionRectangleRight = new Rectangle((int)positie.X+27, (int)positie.Y + 20, 10, 25);
+            collisionRectangleRight = new Rectangle((int)positie.X+12, (int)positie.Y + 20, 10, 25);
+
+            seJump = cnt.Load<SoundEffect>("effects/jump");
+            soundEffectJump = seJump.CreateInstance();
+            soundEffectJump.Volume = 0.5f;
 
             hasJumped = true;
         }
@@ -165,10 +174,12 @@ namespace GameDevProject
                     levens--;
                     firstHitEnemy = false;
                     Console.WriteLine(levens);
+                    positie = _level.beginPositieHero;
+                    positie = tempPos;
                 }
                 
                 //Console.WriteLine(spriteHit);
-                positie = _level.beginPositieHero;
+                
                 firstHitEnemy = true;
             }
             else // HURT LOGIC
@@ -292,19 +303,8 @@ namespace GameDevProject
                 hasJumped = true;
                 canJump = false;
                 collisionTop = false;
-
-                /*if (delay.timerDone(gameTime))
-                {*/
-                /*
-                                if (jumping < 3)
-                                {
-                                    jumping++;
-                                }
-                                else
-                                {
-                                    jumping = 0;
-                                }*/
-                //}
+                soundEffectJump.Play();
+             
             }
             if (!_bediening.up)
             {
@@ -314,7 +314,11 @@ namespace GameDevProject
             if (collisionTop)
             {
                 velocity.Y = 0;
-                positie.Y = _level.collisionMargin - collisionRectangle.Height - 23f;
+                if(positie != _level.beginPositieHero)
+                {
+                    positie.Y = _level.collisionMargin - collisionRectangle.Height - 23f;
+                }
+                
                 //Console.WriteLine(positie.Y + " " + positie.X);
                 hasJumped = false;
                 onBlock = true;
@@ -331,8 +335,6 @@ namespace GameDevProject
 
             //controleren op botsingen met sprites
 
-            //if()
-
 
             collisionRectangle.X = (int)positie.X + 33;
             collisionRectangle.Y = (int)positie.Y + 20;
@@ -346,8 +348,12 @@ namespace GameDevProject
             collisionRectangleLeft.X = (int)positie.X + 50;
             collisionRectangleLeft.Y = (int)positie.Y + 20;
 
-            collisionRectangleRight.X = (int)positie.X + 30;
+            collisionRectangleRight.X = (int)positie.X + 25;
             collisionRectangleRight.Y = (int)positie.Y + 20;
+
+            Console.WriteLine("X = " + positie.X + " | Y = " + positie.Y);
+            Console.WriteLine(_level.beginPositieHero.X + " | " + _level.beginPositieHero.Y);
+            Console.WriteLine(tempPos.X + " | "+ tempPos.Y);
         }
 
         private void CheckCollisions(GameTime gameTime)
@@ -365,34 +371,13 @@ namespace GameDevProject
             //controleren of sprite geraakt wordt door player
             collisionSpriteTop = _level.CheckCollisionTopSprites(this, _level.Enemy.ants);
             collisionSpriteLeft = _level.CheckCollisionLeftSprites(this, _level.Enemy.ants);
-            collisionSpriteRight = _level.CheckCollisionRightSprites(this, _level.Enemy.ants);
-
-           /* if (!collisionSpriteLeft && !collisionSpriteRight && !collisionSpriteTop)
-            {
-                collisionSpriteBottom = _level.CheckCollisionBottomSprites(this, _level.Enemy.ants);
-                if (collisionSpriteBottom)
-                {
-                    Console.WriteLine("Hitting TOP OF ENEMY - JUMP");
-                    delay.setDelay(0.07f);
-                    
-                if (delay.timerDone(gameTime))
-                {
-                        Console.WriteLine("JUUUMPPPPP");
-                    positie.Y = positie.Y - 10f; //jump height
-                    velocity.Y = -8f; //speed
-                    hasJumped = true;
-                    collisionTop = false;
-                }        
-                }
-                    
-            } *///BUG IN JUMP AFTER HITTING SPRITE
+            collisionSpriteRight = _level.CheckCollisionRightSprites(this, _level.Enemy.ants);       
 
         }
 
         public override void Draw(SpriteBatch spritebatch)
         {
-            Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);
-            Console.WriteLine("X = " + positie.X + " | Y = " + positie.Y);
+            Vector2 rectPos = new Vector2(collisionRectangle.X, collisionRectangle.Y);        
 
              /*spritebatch.Draw(custom, collisionRectangle, Color.Red);
               spritebatch.Draw(custom, collisionRectangleLeft, Color.Red);

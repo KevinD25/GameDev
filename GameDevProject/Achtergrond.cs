@@ -26,6 +26,8 @@ namespace GameDevProject
             camera = cam;
             positie.X = camera.Transform.Translation.X;
             positie.Y = camera.Transform.Translation.Y;
+            cameraX = positie.X;
+            cameraY = positie.Y;
         }
 
         public void LoadAchtergrond()
