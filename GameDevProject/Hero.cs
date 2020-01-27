@@ -95,7 +95,7 @@ namespace GameDevProject
 
             seJump = cnt.Load<SoundEffect>("effects/jump");
             soundEffectJump = seJump.CreateInstance();
-            soundEffectJump.Volume = 0.5f;
+            soundEffectJump.Volume = 0.3f;
 
             hasJumped = true;
         }

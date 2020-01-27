@@ -114,7 +114,7 @@ namespace GameDevProject
 
             
             soundEffect = levels.huidigLevel.song.CreateInstance();
-            soundEffect.Volume = 0.3f;
+            soundEffect.Volume = 0.1f;
             soundEffect.IsLooped = true;
             soundEffect.Play();
             
